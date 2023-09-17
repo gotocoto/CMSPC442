@@ -1,20 +1,31 @@
 import numpy as np
 import pygame
-
+size = 150
+border = 5
+background_color=[180,180,180]
+margin = border
 class Tile(object):
     
-    def __init__(self,num):
+    def __init__(self,num,center):
         self.value = num
-        self.font = pygame.font.SysFont('arial', 70)
+        self.font = pygame.font.SysFont('coper black', 90)
         self.image = self.font.render(str(self.value), True, (0, 0, 0))
-        self.center = [100, 200]
+        x,y = self.image.get_width()//2,self.image.get_height()//2
+        self.tile = pygame.Surface((size, size))
+        self.tile.fill(background_color)
+        pygame.draw.rect(self.tile, [255,255,255], pygame.Rect(margin,margin,size-2*margin,size-2*margin),0,30)
+        pygame.draw.rect(self.tile, [10,10,10], pygame.Rect(margin,margin,size-2*margin,size-2*margin),  border,30)
+        
+        self.tile.blit(self.image,(size//2-x,size//2-y))
+        self.center = center
 
     def move(self, x, y):
         self.center[0] += x
         self.center[1] += y
 
     def draw(self, surf):
-        surf.blit(self.image, self.center)
+        if(self.value!=0):
+            surf.blit(self.tile, self.center)
 #p  from queue import PriorityQueue
 targetGrid = np.array([[0,1,2],[3,4,5],[6,7,8]])
 startingGrid = np.array([[1,0,2],[3,4,5],[6,7,8]])
@@ -67,12 +78,11 @@ print(startingGrid)
 #Pygame
 class game(object):
     def __init__(self):
-        self.screen = pygame.display.set_mode((640, 640))
+        self.screen = pygame.display.set_mode((size*3, size*3))
         self.clock = pygame.time.Clock()
         self.background_colour = (234, 212, 252)
         self.title = pygame.display.set_caption('Tile Game')
         pygame.init()
-        self.player = Tile(4)
     def run(self):
         running = 1
         while running:
@@ -98,9 +108,12 @@ class game(object):
             keys = pygame.key.get_pressed()
             move_x = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
             move_y = keys[pygame.K_DOWN] - keys[pygame.K_UP]
-            self.player.move(move_x * 5, move_y * 5)
-            self.screen.fill([50, 200, 0])
-            self.player.draw(self.screen)
+            #self.player.move(move_x * 5, move_y * 5)
+            self.screen.fill(background_color)
+            for i in range(3):
+                for j in range(3):
+                    Tile(startingGrid[j][i],(i*size,j*size)).draw(self.screen)
+            #self.player.draw(self.screen)
             pygame.display.update()
 g= game()
 g.run()

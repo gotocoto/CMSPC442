@@ -93,14 +93,13 @@ class game(object):
                 if event.type == pygame.QUIT:
                     running = False
                 if event.type == pygame.KEYDOWN:
-                    match event.key:
-                        case pygame.K_w:
+                    if(event.key==pygame.K_w):
                             moveUp(startingGrid)
-                        case pygame.K_s:
+                    elif(event.key==pygame.K_s):
                             moveDown(startingGrid)
-                        case pygame.K_a:
+                    elif(event.key==pygame.K_a):
                             moveLeft(startingGrid)
-                        case pygame.K_d:
+                    elif(event.key==pygame.K_d):
                             moveRight(startingGrid)
                     print(startingGrid)
             if((startingGrid==targetGrid).all()):

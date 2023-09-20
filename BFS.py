@@ -81,6 +81,9 @@ print(startingGrid)
 print(moveUp(startingGrid))
 print(startingGrid)
 
+def read_file(file):
+    f = open(file, "r")
+    print(f.read())
 
 #Pygame
 class game(object):

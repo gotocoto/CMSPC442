@@ -43,32 +43,39 @@ def getMd(grid,targetGrid):
 
 def moveUp(grid):
     emptyY,emptyX = list(zip(*np.where(grid==0)))[0]
-    if emptyY==0: return grid
+    if emptyY==0: return None
     newY = emptyY-1
     grid[emptyY][emptyX]=grid[newY][emptyX]
     grid[newY][emptyX]=0
     return grid
 def moveDown(grid):
     emptyY,emptyX = list(zip(*np.where(grid==0)))[0]
-    if emptyY==2: return grid
+    if emptyY==2: return None
     newY = emptyY+1
     grid[emptyY][emptyX]=grid[newY][emptyX]
     grid[newY][emptyX]=0
     return grid
 def moveLeft(grid):
     emptyY,emptyX = list(zip(*np.where(grid==0)))[0]
-    if emptyX==0: return grid
+    if emptyX==0: return None
     newX = emptyX-1
     grid[emptyY][emptyX]=grid[emptyY][newX]
     grid[emptyY][newX]=0
     return grid
 def moveRight(grid):
     emptyY,emptyX = list(zip(*np.where(grid==0)))[0]
-    if emptyX==2: return grid
+    if emptyX==2: return None
     newX = emptyX+1
     grid[emptyY][emptyX]=grid[emptyY][newX]
     grid[emptyY][newX]=0
     return grid
+def branch(grid):
+    branches = []
+    branches.append(moveRight(np.copy(grid)))
+    branches.append(moveLeft(np.copy(grid)))
+    branches.append(moveUp(np.copy(grid)))
+    branches.append(moveDown(np.copy(grid)))
+    return list(filter(lambda item: item is not None, branches)) #Remove the None types
 print(getMd(startingGrid,targetGrid))
 print(startingGrid)
 print(moveUp(startingGrid))

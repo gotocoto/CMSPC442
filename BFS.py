@@ -4,3 +4,11 @@ def read_file(file):
 
 
 
+
+
+
+
+
+
+
+read_file("input.txt")

@@ -116,7 +116,7 @@ while(True):
     if(grid==targetGrid):
         print(path)
         print(grid)
-        print(steps)
+        print(steps) 
         break
     #print(path)
     '''

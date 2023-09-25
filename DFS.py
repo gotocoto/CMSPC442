@@ -54,19 +54,19 @@ def getEmpty(grid):
             return i
 def moveUp(grid,path,empty):
     path+='U'
-    newGrid = grid[:empty-3]+'0'+grid[empty-2:empty]+grid[empty-3]+grid[empty+1:]
+    newGrid = "".join([grid[:empty-3],'0',grid[empty-2:empty],grid[empty-3],grid[empty+1:]])
     return [newGrid,path]
 def moveDown(grid,path,empty):
     path+='D'
-    newGrid = grid[:empty]+grid[empty+3]+grid[empty+1:empty+3]+'0'+grid[empty+4:]
+    newGrid = "".join([grid[:empty],grid[empty+3],grid[empty+1:empty+3],'0',grid[empty+4:]])
     return [newGrid,path]
 def moveLeft(grid,path,empty):
     path+='L'
-    newGrid = grid[:empty-1]+'0'+grid[empty-1]+grid[empty+1:]
+    newGrid = "".join([grid[:empty-1],'0',grid[empty-1],grid[empty+1:]])
     return [newGrid,path]
 def moveRight(grid,path,empty):
     path+='R'
-    newGrid = grid[:empty]+grid[empty+1]+'0'+grid[empty+2:]
+    newGrid = "".join([grid[:empty],grid[empty+1],'0',grid[empty+2:]])
     return [newGrid,path]
 def branch(grid,path):
     branches = []
@@ -97,34 +97,32 @@ class gridPath:
 class Grid(object):
     def __init__(self,grid,path):
         self.grid = grid
-        self.expand = 0
+        self.nextNodeNumber = 0
         self.path = path
-        self.options()
-    def options(self):
-        empty = getEmpty(self.grid)
+        self.empty = getEmpty(grid)
         self.options = []
-        if(empty%3 != 2):
+        if(self.empty%3 != 2):
             self.options.append('R')
-        if(empty%3 != 0 ):
+        if(self.empty%3 != 0 ):
             self.options.append('L')
-        if(empty>2):
+        if(self.empty>2):
             self.options.append('U')
-        if(empty<6):
+        if(self.empty<6):
             self.options.append('D')
         self.options.append(None)
     def next(self):
-        nextDirection = self.options[self.expand]
-        self.expand += 1
+        nextDirection = self.options[self.nextNodeNumber]
+        self.nextNodeNumber += 1
         if(nextDirection==None):
             return None
         if(nextDirection =='R'):
-            return Grid(moveRight(self.grid),self.path+'R')
+            return Grid(*moveRight(self.grid,self.path,self.empty))
         if(nextDirection =='L'):
-            return Grid(moveLeft(self.grid),self.path+'L')
+            return Grid(*moveLeft(self.grid,self.path,self.empty))
         if(nextDirection =='U'):
-            return Grid(moveUp(self.grid),self.path+'U')
+            return Grid(*moveUp(self.grid,self.path,self.empty))
         if(nextDirection =='D'):
-            return Grid(moveDown(self.grid),self.path+'D')
+            return Grid(*moveDown(self.grid,self.path,self.empty))
         else:
             return 0/0
     def __str__(self):
@@ -140,53 +138,53 @@ path = 'S'
 steps=0
 notDone = True
 depth =0
-queue.append(Grid(startingGrid,''))
-while(True):
+running = True
+while(running):
     depth+=1
+    queue.clear()
+    queue.append(Grid(startingGrid,''))
+    print("Depth is now ",depth)
+    notDone = True
     while(notDone):
         steps+=1
-        if(len(queue)==0):
+        if(not queue):
             break
-        if(queue[-1]==targetGrid):
-            print( True)
-            print(queue[-1])
-            print(queue[-1].path())
         if(depth>len(queue)):
             next = queue[-1].next()
+            if(next==targetGrid):
+                print( True)
+                print(queue[-1])
+                print(queue[-1].path())
             if(next==None):
                 queue.pop()
             else:
                 queue.append(next)
         else:
-            print("BYYYYYY")
             queue.pop()
         
-        if(steps%1000==0):
+        if(steps%100000000==0):
             print("\nSteps: "+str(steps))
             print("Queue Size: "+str(len(queue)))
             print("Depth: "+str(depth))
             print("Grid: " +str(queue[-1]))
             print(queue)
-        '''
-        if(grid==targetGrid):
-            print(path)
-            print(grid)
-            print(steps) 
-            break
-        #print(path)'''
+        
         '''
         direction = input("\n")
+        
+        empty = getEmpty(startingGrid)
         match direction:
             case 'u':
-                startingGrid,path = moveUp(startingGrid,path)   
+                startingGrid,path = moveUp(startingGrid,path,empty)   
             case 'd':
-                startingGrid,path = moveDown(startingGrid,path)
+                startingGrid,path = moveDown(startingGrid,path,empty)
             case 'l':
-                startingGrid,path = moveLeft(startingGrid,path)
+                startingGrid,path = moveLeft(startingGrid,path,empty)
             case 'r':
-                startingGrid,path = moveRight(startingGrid,path)
+                startingGrid,path = moveRight(startingGrid,path,empty)
+        print(startingGrid,path)
         '''
-        '''        
+        '''      
         branches = branch(grid,path)
         for child in branches:
             unique = True

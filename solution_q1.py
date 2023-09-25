@@ -550,7 +550,7 @@ def AStar(file, mode):
 
 if __name__ == '__main__':
     print("The solution of Q1.1a is:")
-    #dfs("input.txt")
+    print(dfs("input.txt"))
     print("The solution of Q1.1b is:")
     print(bfs("input.txt"))
     print("The solution of Q1.1c is:")

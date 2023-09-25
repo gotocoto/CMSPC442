@@ -1,20 +1,10 @@
+def file_to_string(file):
+    f = open(file, "r")
+    temp = f.read().replace(',','').replace('_','0')
+    return temp
 def dfs(file):
-    def read_file(file):
-        f = open(file, "r")
-        print(f.read())
-
-    import heapq
-    import queue
     DEBUG = False
-    # p  from queue import PriorityQueue
-    # targetGrid = np.array([[0,1,2],[3,4,5],[6,7,8]])
     targetGrid = '012345678'
-    # startingGrid = np.array([[1,0,2],[3,4,5],[6,7,8]])
-    # startingGrid = [np.array([[7,2,4],[5,0,6],[8,3,1]])]
-    # startingGrid= '724506831'
-    startingGrid = '123456078'
-
-    # startingGrid = [7,2,4,5,0,6,8,3,1]
     def getEmpty(grid):
         return grid.index('0')
 
@@ -105,12 +95,6 @@ def dfs(file):
 
         def __str__(self):
             return str(self.grid)
-
-    print(startingGrid)
-    print(moveUp(startingGrid, '', getEmpty(startingGrid)))
-    print(branch(startingGrid, ''), getEmpty(startingGrid))
-    print(getEmpty(startingGrid), getEmpty(startingGrid))
-
     def DFS(grid):
         queue = []
         # print(queue)
@@ -123,7 +107,6 @@ def dfs(file):
             depth += 1
             queue.clear()
             queue.append(Grid(grid, ''))
-            print("Depth is now ", depth)
             notDone = True
             while (notDone):
                 steps += 1
@@ -149,6 +132,7 @@ def dfs(file):
                     print("Depth: " + str(depth))
                     print("Grid: " + str(queue[-1]))
                     print(queue)
+    return DFS(file_to_string(file))
 def bfs(file):
     def read_file(file):
         f = open(file, "r")
@@ -267,6 +251,7 @@ def bfs(file):
             for child in branches:
                 if (child[0] not in explored):
                     heapq.heappush(queue, (weight + 1, child))
+    return BFS(file_to_string(file))
 
     '''
     def testMovement(grid):
@@ -286,10 +271,6 @@ def bfs(file):
     '''
     read_file("input.txt")
 def ucs(file):
-    def read_file(file):
-        f = open(file, "r")
-        print(f.read())
-
     import heapq
     import queue
     DEBUG = False
@@ -403,7 +384,7 @@ def ucs(file):
             for child in branches:
                 if (child[0] not in explored):
                     heapq.heappush(queue, (weight + 1, child))
-
+    return BFS(file_to_string(file))
     '''
     def testMovement(grid):
         while(True):
@@ -420,15 +401,14 @@ def ucs(file):
                     grid,path = moveRight(grid,path,empty)
             print(startingGrid,path)
     '''
-    read_file("input.txt")
-def AStar(file):
+def AStar(file, mode):
     def read_file(file):
         f = open(file, "r")
         print(f.read())
 
     import heapq
     import queue
-    DEBUG = True
+    DEBUG = False
     # p  from queue import PriorityQueue
     # targetGrid = np.array([[0,1,2],[3,4,5],[6,7,8]])
     targetGrid = '012345678'
@@ -538,7 +518,10 @@ def AStar(file):
             for child in branches:
                 if (child[0] not in explored):
                     heapq.heappush(queue, (len(child[1]) + h(child[0]), child))
-
+    if mode == 'CB':
+        return AStar(file_to_string(file),getMd,isGoalEqual)
+    else:
+        return AStar(file_to_string(file),getSLd,isGoalEqual)
     '''
     def testMovement(grid):
         while(True):
@@ -567,12 +550,12 @@ def AStar(file):
 
 if __name__ == '__main__':
     print("The solution of Q1.1a is:")
-    dfs("input.txt")
+    #dfs("input.txt")
     print("The solution of Q1.1b is:")
-    bfs("input.txt")
+    print(bfs("input.txt"))
     print("The solution of Q1.1c is:")
-    ucs("input.txt")
+    print(ucs("input.txt"))
     print("The solution of Q1.1d is:")
-    AStar("input.txt")
+    print(AStar("input.txt","CB"))
     print("The solution of Q1.1e is:")
-    AStar("input.txt")
+    print(AStar("input.txt","SLD"))

@@ -3,7 +3,6 @@ def dfs(file):
         f = open(file, "r")
         print(f.read())
 
-    import numpy as np
     import heapq
     import queue
     DEBUG = False
@@ -16,16 +15,6 @@ def dfs(file):
     startingGrid = '123456078'
 
     # startingGrid = [7,2,4,5,0,6,8,3,1]
-    def getMd(grid, targetGrid):
-        md = 0
-        for y, row in enumerate(grid):
-            for x, cell in enumerate(row):
-                if (cell != 0):
-                    print(list(zip(*np.where(targetGrid == cell)))[0])
-                    goaly, goalx = list(zip(*np.where(targetGrid == cell)))[0]
-                    md += abs(x - goalx) + abs(y - goaly)
-        return (md)
-
     def getEmpty(grid):
         return grid.index('0')
 
@@ -160,8 +149,6 @@ def dfs(file):
                     print("Depth: " + str(depth))
                     print("Grid: " + str(queue[-1]))
                     print(queue)
-
-    read_file("input.txt")
 def bfs(file):
     def read_file(file):
         f = open(file, "r")
@@ -281,21 +268,22 @@ def bfs(file):
                 if (child[0] not in explored):
                     heapq.heappush(queue, (weight + 1, child))
 
+    '''
     def testMovement(grid):
-        while (True):
+        while(True):
             direction = input("\n")
             empty = getEmpty(startingGrid)
             match direction:
                 case 'u':
-                    grid, path = moveUp(grid, path, empty)
+                    grid,path = moveUp(grid,path,empty)   
                 case 'd':
-                    grid, path = moveDown(grid, path, empty)
+                    grid,path = moveDown(grid,path,empty)
                 case 'l':
-                    grid, path = moveLeft(grid, path, empty)
+                    grid,path = moveLeft(grid,path,empty)
                 case 'r':
-                    grid, path = moveRight(grid, path, empty)
-            print(startingGrid, path)
-
+                    grid,path = moveRight(grid,path,empty)
+            print(startingGrid,path)
+    '''
     read_file("input.txt")
 def ucs(file):
     def read_file(file):
@@ -416,21 +404,22 @@ def ucs(file):
                 if (child[0] not in explored):
                     heapq.heappush(queue, (weight + 1, child))
 
+    '''
     def testMovement(grid):
-        while (True):
+        while(True):
             direction = input("\n")
             empty = getEmpty(startingGrid)
             match direction:
                 case 'u':
-                    grid, path = moveUp(grid, path, empty)
+                    grid,path = moveUp(grid,path,empty)   
                 case 'd':
-                    grid, path = moveDown(grid, path, empty)
+                    grid,path = moveDown(grid,path,empty)
                 case 'l':
-                    grid, path = moveLeft(grid, path, empty)
+                    grid,path = moveLeft(grid,path,empty)
                 case 'r':
-                    grid, path = moveRight(grid, path, empty)
-            print(startingGrid, path)
-
+                    grid,path = moveRight(grid,path,empty)
+            print(startingGrid,path)
+    '''
     read_file("input.txt")
 def AStar(file):
     def read_file(file):
@@ -550,21 +539,22 @@ def AStar(file):
                 if (child[0] not in explored):
                     heapq.heappush(queue, (len(child[1]) + h(child[0]), child))
 
+    '''
     def testMovement(grid):
-        while (True):
+        while(True):
             direction = input("\n")
             empty = getEmpty(startingGrid)
             match direction:
                 case 'u':
-                    grid, path = moveUp(grid, path, empty)
+                    grid,path = moveUp(grid,path,empty)   
                 case 'd':
-                    grid, path = moveDown(grid, path, empty)
+                    grid,path = moveDown(grid,path,empty)
                 case 'l':
-                    grid, path = moveLeft(grid, path, empty)
+                    grid,path = moveLeft(grid,path,empty)
                 case 'r':
-                    grid, path = moveRight(grid, path, empty)
-            print(startingGrid, path)
-
+                    grid,path = moveRight(grid,path,empty)
+            print(startingGrid,path)
+    '''
     read_file("input.txt")
     if (DEBUG):
         # Problem 1 answers

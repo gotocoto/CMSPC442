@@ -3,7 +3,7 @@ def read_file(file):
     print(f.read())
 import heapq
 import queue
-import s from math
+DEBUG =False
 #p  from queue import PriorityQueue
 #targetGrid = np.array([[0,1,2],[3,4,5],[6,7,8]])
 targetGrid = '012345678'
@@ -67,52 +67,58 @@ def isGoal(grid):
     return sum(map(int,list(grid[:3])))==11
 '''
 #print(getMd(startingGrid,targetGrid))
+'''
+#Testing Functions
 print(startingGrid)
 print(moveUp(startingGrid,'',getEmpty(startingGrid)))
 print(branch(startingGrid,''),getEmpty(startingGrid))
-print(getEmpty(startingGrid),getEmpty(startingGrid))   
-queue =[]
-heapq.heappush(queue,(0,(startingGrid,''))) 
-print(queue)
-path = ''
-steps=0
-explored = set()
-while(True):
-    steps+=1
-    weight,(grid,path) = heapq.heappop(queue)
-    if(steps%100000==0):
-        print("\nSteps: "+str(steps))
-        print("Queue Size: "+str(len(queue)))
-        print("Depth: "+str(len(path)))
-        print("Weight: "+str(weight))
-        print("Path: "+str(path))
-        print("Grid: " +str(grid))
-    if(isGoal(grid)):
-        print("\nSOLUTION")
-        print("Queue Size: "+str(len(queue)))
-        print("Depth: "+str(len(path)))
-        print("Weight: "+str(weight))
-        print("Path: "+str(path))
-        print("Grid: " +str(grid))
-        break
-    #print(path)
-    '''
-    direction = input("\n")
-    match direction:
-        case 'u':
-            startingGrid,path = moveUp(startingGrid,path)   
-        case 'd':
-            startingGrid,path = moveDown(startingGrid,path)
-        case 'l':
-            startingGrid,path = moveLeft(startingGrid,path)
-        case 'r':
-            startingGrid,path = moveRight(startingGrid,path)
-    '''
-    explored.add(grid)
-    branches = branch(grid,path)
-    for child in branches:
-        if(child[0] not in explored):
-            heapq.heappush(queue,(weight+1,child))
+print(getEmpty(startingGrid),getEmpty(startingGrid))  
+''' 
+def BFS(grid):
+    queue =[]
+    heapq.heappush(queue,(0,(grid,''))) 
+    print(queue)
+    path = ''
+    steps=0
+    explored = set()
+    while(True):
+        steps+=1
+        weight,(grid,path) = heapq.heappop(queue)
+        if(DEBUG and steps%100000==0):
+            print("\nSteps: "+str(steps))
+            print("Queue Size: "+str(len(queue)))
+            print("Depth: "+str(len(path)))
+            print("Weight: "+str(weight))
+            print("Path: "+str(path))
+            print("Grid: " +str(grid))
+        if(isGoal(grid)):
+            if(DEBUG):
+                print("\nSOLUTION")
+                print("Queue Size: "+str(len(queue)))
+                print("Depth: "+str(len(path)))
+                print("Weight: "+str(weight))
+                print("Path: "+str(path))
+                print("Grid: " +str(grid))
+            return path
+        explored.add(grid)
+        branches = branch(grid,path)
+        for child in branches:
+            if(child[0] not in explored):
+                heapq.heappush(queue,(weight+1,child))
     
+def testMovement(grid):
+    while(True):
+        direction = input("\n")
+        empty = getEmpty(startingGrid)
+        match direction:
+            case 'u':
+                grid,path = moveUp(grid,path,empty)   
+            case 'd':
+                grid,path = moveDown(grid,path,empty)
+            case 'l':
+                grid,path = moveLeft(grid,path,empty)
+            case 'r':
+                grid,path = moveRight(grid,path,empty)
+        print(startingGrid,path)
 
 read_file("input.txt")

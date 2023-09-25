@@ -2,35 +2,9 @@ def read_file(file):
     f = open(file, "r")
     print(f.read())
 import numpy as np
-import pygame
 import heapq
 import queue
-size = 150
-border = 5
-background_color=[180,180,180]
-margin = border
-class Tile(object):
-    
-    def __init__(self,num,center):
-        self.value = num
-        self.font = pygame.font.SysFont('coper black', 90)
-        self.image = self.font.render(str(self.value), True, (0, 0, 0))
-        x,y = self.image.get_width()//2,self.image.get_height()//2
-        self.tile = pygame.Surface((size, size))
-        self.tile.fill(background_color)
-        pygame.draw.rect(self.tile, [255,255,255], pygame.Rect(margin,margin,size-2*margin,size-2*margin),0,30)
-        pygame.draw.rect(self.tile, [10,10,10], pygame.Rect(margin,margin,size-2*margin,size-2*margin),  border,30)
-        
-        self.tile.blit(self.image,(size//2-x,size//2-y))
-        self.center = center
-
-    def move(self, x, y):
-        self.center[0] += x
-        self.center[1] += y
-
-    def draw(self, surf):
-        if(self.value!=0):
-            surf.blit(self.tile, self.center)
+DEBUG =False
 #p  from queue import PriorityQueue
 #targetGrid = np.array([[0,1,2],[3,4,5],[6,7,8]])
 targetGrid = '012345678'
@@ -129,69 +103,45 @@ print(startingGrid)
 print(moveUp(startingGrid,'',getEmpty(startingGrid)))
 print(branch(startingGrid,''),getEmpty(startingGrid))
 print(getEmpty(startingGrid),getEmpty(startingGrid))   
-queue =[]
-#heapq.heappush(queue,(0,(startingGrid,''))) 
-print(queue)
-path = 'S'
-steps=0
-notDone = True
-depth =0
-running = True
-while(running):
-    depth+=1
-    queue.clear()
-    queue.append(Grid(startingGrid,''))
-    print("Depth is now ",depth)
+def DFS(grid):
+    queue =[]
+    #print(queue)
+    path = 'S'
+    steps=0
     notDone = True
-    while(notDone):
-        steps+=1
-        if(not queue):
-            break
-        if(depth>len(queue)):
-            next = queue[-1].next()
-            if(next==targetGrid):
-                print( True)
-                print(queue[-1])
-                print(queue[-1].path())
-            if(next==None):
-                queue.pop()
+    depth =0
+    running = True
+    while(running):
+        depth+=1
+        queue.clear()
+        queue.append(Grid(grid,''))
+        print("Depth is now ",depth)
+        notDone = True
+        while(notDone):
+            steps+=1
+            if(not queue):
+                break
+            if(depth>len(queue)):
+                next = queue[-1].next()
+                if(next==targetGrid):
+                    if(DEBUG):
+                        print( True)
+                        print(queue[-1])
+                        print(queue[-1].path())
+                    return queue[-1].path()
+                if(next==None):
+                    queue.pop()
+                else:
+                    queue.append(next)
             else:
-                queue.append(next)
-        else:
-            queue.pop()
+                queue.pop()
+            if(DEBUG and steps%100000000==0):
+                print("\nSteps: "+str(steps))
+                print("Queue Size: "+str(len(queue)))
+                print("Depth: "+str(depth))
+                print("Grid: " +str(queue[-1]))
+                print(queue)
         
-        if(steps%100000000==0):
-            print("\nSteps: "+str(steps))
-            print("Queue Size: "+str(len(queue)))
-            print("Depth: "+str(depth))
-            print("Grid: " +str(queue[-1]))
-            print(queue)
-        
-        '''
-        direction = input("\n")
-        
-        empty = getEmpty(startingGrid)
-        match direction:
-            case 'u':
-                startingGrid,path = moveUp(startingGrid,path,empty)   
-            case 'd':
-                startingGrid,path = moveDown(startingGrid,path,empty)
-            case 'l':
-                startingGrid,path = moveLeft(startingGrid,path,empty)
-            case 'r':
-                startingGrid,path = moveRight(startingGrid,path,empty)
-        print(startingGrid,path)
-        '''
-        '''      
-        branches = branch(grid,path)
-        for child in branches:
-            unique = True
-            for i in queue:
-                if(i[1][0]==child[0]):
-                    unique = False
-                    break
-            if(unique):
-                heapq.heappush(queue,(weight+1,child))'''
 
     
 

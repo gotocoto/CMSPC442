@@ -3,33 +3,7 @@ def read_file(file):
     print(f.read())
 import heapq
 import queue
-size = 150
-border = 5
-background_color=[180,180,180]
-margin = border
-'''
-class Tile(object):
-    
-    def __init__(self,num,center):
-        self.value = num
-        self.font = pygame.font.SysFont('coper black', 90)
-        self.image = self.font.render(str(self.value), True, (0, 0, 0))
-        x,y = self.image.get_width()//2,self.image.get_height()//2
-        self.tile = pygame.Surface((size, size))
-        self.tile.fill(background_color)
-        pygame.draw.rect(self.tile, [255,255,255], pygame.Rect(margin,margin,size-2*margin,size-2*margin),0,30)
-        pygame.draw.rect(self.tile, [10,10,10], pygame.Rect(margin,margin,size-2*margin,size-2*margin),  border,30)
-        
-        self.tile.blit(self.image,(size//2-x,size//2-y))
-        self.center = center
-
-    def move(self, x, y):
-        self.center[0] += x
-        self.center[1] += y
-
-    def draw(self, surf):
-        if(self.value!=0):
-            surf.blit(self.tile, self.center)'''
+import s from math
 #p  from queue import PriorityQueue
 #targetGrid = np.array([[0,1,2],[3,4,5],[6,7,8]])
 targetGrid = '012345678'
@@ -47,8 +21,15 @@ def getMd(grid):
         total += abs(goalx-curx)+abs(goaly-cury)
     return total
         
+def getSLd(grid):
+    total = 0
+    for i in range(9):
+        cur = int(grid[i])
+        goalx,goaly = cur%3,cur//3
+        curx,cury = i%3,i//3
+        total += pow(pow((goalx-curx),2)+pow((goaly-cury),2),1/2)
+    return total
         
-    return(md)
 def getEmpty(grid):
     return grid.index('0')
 def moveUp(grid,path,empty):
@@ -79,19 +60,12 @@ def branch(grid,path):
     if(empty<6):
         branches.append(moveDown(grid,path,empty))
     return branches #Remove the None types
-class gridPath:
-    def __init__(self,combination):
-        self.grid,self.path = combination
-    def getGrid(self):
-        return self.grid
-    def __eq__(self, __value: object) -> bool:
-        return False
-        #return np.array_equal(self.grid,__value.getGrid())
-    def __lt__(self, __value: object) -> bool:
-        return False
-        #return np.less(self.grid,__value.getGrid()).all()
-    def data(self):
-        return [self.grid,self.path]
+def isGoal(grid):
+    return grid==targetGrid
+'''
+def isGoal(grid):
+    return sum(map(int,list(grid[:3])))==11
+'''
 #print(getMd(startingGrid,targetGrid))
 print(startingGrid)
 print(moveUp(startingGrid,'',getEmpty(startingGrid)))
@@ -113,7 +87,7 @@ while(True):
         print("Weight: "+str(weight))
         print("Path: "+str(path))
         print("Grid: " +str(grid))
-    if(grid==targetGrid):
+    if(isGoal(grid)):
         print("\nSOLUTION")
         print("Queue Size: "+str(len(queue)))
         print("Depth: "+str(len(path)))

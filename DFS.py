@@ -1,7 +1,6 @@
 def read_file(file):
     f = open(file, "r")
     print(f.read())
-import numpy as np
 import heapq
 import queue
 DEBUG =False
@@ -13,15 +12,6 @@ targetGrid = '012345678'
 #startingGrid= '724506831'
 startingGrid = '123456078'
 #startingGrid = [7,2,4,5,0,6,8,3,1]
-def getMd(grid,targetGrid):
-    md = 0
-    for y,row in enumerate(grid):
-        for x,cell in enumerate(row):
-            if(cell!=0):
-                print(list(zip(*np.where(targetGrid==cell)))[0])
-                goaly,goalx = list(zip(*np.where(targetGrid==cell)))[0]
-                md += abs(x-goalx)+abs(y-goaly)
-    return(md)
 def getEmpty(grid):
     return grid.index('0')
 def moveUp(grid,path,empty):

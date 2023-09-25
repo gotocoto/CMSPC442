@@ -105,7 +105,7 @@ def BFS(grid):
         for child in branches:
             if(child[0] not in explored):
                 heapq.heappush(queue,(weight+1,child))
-    
+'''
 def testMovement(grid):
     while(True):
         direction = input("\n")
@@ -120,5 +120,5 @@ def testMovement(grid):
             case 'r':
                 grid,path = moveRight(grid,path,empty)
         print(startingGrid,path)
-
+'''
 read_file("input.txt")

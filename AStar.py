@@ -103,7 +103,7 @@ def AStar(grid,h,isGoal):
         for child in branches:
             if(child[0] not in explored):
                 heapq.heappush(queue,(len(child[1])+h(child[0]),child))
-    
+'''
 def testMovement(grid):
     while(True):
         direction = input("\n")
@@ -118,7 +118,7 @@ def testMovement(grid):
             case 'r':
                 grid,path = moveRight(grid,path,empty)
         print(startingGrid,path)
-
+'''
 read_file("input.txt")
 if(DEBUG):
     #Problem 1 answers

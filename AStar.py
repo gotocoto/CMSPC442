@@ -102,11 +102,11 @@ heapq.heappush(queue,(0,(startingGrid,'')))
 print(queue)
 path = ''
 steps=0
-explored = set()
+visited = set()
 while(True):
     steps+=1
     weight,(grid,path) = heapq.heappop(queue)
-    if(steps%100000==0):
+    if(steps%100==0):
         print("\nSteps: "+str(steps))
         print("Queue Size: "+str(len(queue)))
         print("Depth: "+str(len(path)))
@@ -134,11 +134,22 @@ while(True):
         case 'r':
             startingGrid,path = moveRight(startingGrid,path)
     '''
-    explored.add(grid)
+    '''
+    #Checking if in queue
+    for i in queue:
+            if(i[1][0]==child[0]):
+                unique = False
+                if(i[0]>len(child[1])):
+                    i[0]=child[1]
+                    update = True
+        if(update):
+            heapq.heapify(queue)
+            '''
+    visited.add(grid)
     branches = branch(grid,path)
     for child in branches:
-        if(child[0] not in explored):
-            heapq.heappush(queue,(weight+1,child))
+        if(child[0] not in visited):
+            heapq.heappush(queue,(len(child[1])+getMd(child[0]),child))
     
 
 read_file("input.txt")

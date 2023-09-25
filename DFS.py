@@ -49,9 +49,7 @@ def getMd(grid,targetGrid):
                 md += abs(x-goalx)+abs(y-goaly)
     return(md)
 def getEmpty(grid):
-    for i in range(9):
-        if(grid[i]=='0'):
-            return i
+    return grid.index('0')
 def moveUp(grid,path,empty):
     path+='U'
     newGrid = "".join([grid[:empty-3],'0',grid[empty-2:empty],grid[empty-3],grid[empty+1:]])

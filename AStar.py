@@ -3,7 +3,7 @@ def read_file(file):
     print(f.read())
 import heapq
 import queue
-DEBUG =False
+DEBUG =True
 #p  from queue import PriorityQueue
 #targetGrid = np.array([[0,1,2],[3,4,5],[6,7,8]])
 targetGrid = '012345678'
@@ -60,12 +60,10 @@ def branch(grid,path):
     if(empty<6):
         branches.append(moveDown(grid,path,empty))
     return branches #Remove the None types
-def isGoal(grid):
+def isGoalEqual(grid):
     return grid==targetGrid
-'''
-def isGoal(grid):
+def isGoalSum(grid):
     return sum(map(int,list(grid[:3])))==11
-'''
 #print(getMd(startingGrid,targetGrid))
 '''
 #Testing Functions
@@ -74,7 +72,7 @@ print(moveUp(startingGrid,'',getEmpty(startingGrid)))
 print(branch(startingGrid,''),getEmpty(startingGrid))
 print(getEmpty(startingGrid),getEmpty(startingGrid))  
 ''' 
-def AStar(grid):
+def AStar(grid,h,isGoal):
     queue =[]
     heapq.heappush(queue,(0,(grid,''))) 
     print(queue)
@@ -104,7 +102,7 @@ def AStar(grid):
         branches = branch(grid,path)
         for child in branches:
             if(child[0] not in explored):
-                heapq.heappush(queue,(len(child[1])+getMd(child[0]),child))
+                heapq.heappush(queue,(len(child[1])+h(child[0]),child))
     
 def testMovement(grid):
     while(True):
@@ -122,4 +120,10 @@ def testMovement(grid):
         print(startingGrid,path)
 
 read_file("input.txt")
-#print(AStar(startingGrid))
+if(DEBUG):
+    #Problem 1 answers
+    print(AStar(startingGrid,getMd,isGoalEqual))
+    print(AStar(startingGrid,getSLd,isGoalEqual))
+    #Problem 2 answers
+    print(AStar(startingGrid,getMd,isGoalSum))
+    print(AStar(startingGrid,getSLd,isGoalSum))
